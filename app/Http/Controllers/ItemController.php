@@ -2,32 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; //mengambil model item dari namespace
 use App\Models\Item;
 
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //mengambil semua data atau item
     public function index()
     {
         $items = Item::all();
         return view('items.index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   //menampilkan form untuk menambahkan data baru
     public function create()
     {
         return view('items.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //menyimpan data ke database
     public function store(Request $request)
     {
         $request->validate([
@@ -36,29 +30,23 @@ class ItemController extends Controller
         ]);
 
         Item::create($request->only(['name', 'description']));
-        return redirect()->route('items.index')->with('succes', 'Item added succesfully.');
+        return redirect()->route('items.index')->with('success', 'Item added succesfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+   //menampilkan pesan
+    public function show(Item $item)
     {
         return view('items.show',compact('item'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    //menampilkan form edit data
+    public function edit(Item $item)
     {
         return view('items.edit', compact('item'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $item)
+    //memperbarui pada database
+    public function update(Request $request, Item $item)
     {
         $request->validate([
             'name'=> 'required',
@@ -66,15 +54,13 @@ class ItemController extends Controller
         ]);
 
         $item->update($request->only(['name', 'description']));
-        return redirect()->route('items.index')->with('succes', 'Item updated succesfully.');
+        return redirect()->route('items.index')->with('success', 'Item updated succesfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $item)
+    //menghapus data dari database
+    public function destroy(Item $item)
     {
         $item->delete();
-        return redirect()->route('items.index')->with('succes', 'Item deleted succesfully.');
+        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
     }
 }

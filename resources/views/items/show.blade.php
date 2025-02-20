@@ -5,18 +5,25 @@
 </head>
 <body>
     <h1>Items</h1>
-    @if(session('succes'))
-        <p>{{ session('succes') }}</p>
+    <!-- memvalidasi apakah perubahan atau penambahan sudah berhasil -->
+    @if(session('success'))
+        <p>{{ session('success') }}</p>
     @endif
+    <!-- tombol untuk menambahkan item baru -->
     <a href="{{ route('items.create') }}">Add Item</a>
     <ul>
+        <!-- loop untuk menampilkan semua item -->
         @foreach ($items as $item)
             <li>
+                <!-- menampilkan item -->
                 {{ $item->name }} -
-                <a href="{{ route('items.edit', $item) }}">Edit</a>
+                <!-- link untuk mengedit item -->
+                <a href="{{ route('items.index', $item) }}">Edit</a>
+                <!-- form untuk menghapus item -->
                 <form action="{{ route('items.destroy', $item) }}" method="POST" style="display:inline;">
                     @csrf
-                    @method('DELETE')
+                    @method('DELETE') / 
+                    <!-- menggunakan metode delete untuk menghapus item -->
                     <button type="submit">Delete</button>
                 </form>
             </li>
